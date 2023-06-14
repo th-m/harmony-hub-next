@@ -10,12 +10,18 @@ export default async function IndexPage({
 }: {
   searchParams: { q: string };
 }) {
-  const search = searchParams.q ?? '';
-  const users = await queryBuilder
-    .selectFrom('users')
-    .select(['id', 'name', 'username', 'email'])
-    .where('name', 'like', `%${search}%`)
-    .execute();
+  let users:any =[]
+  try {
+    const search = searchParams.q ?? '';
+     users = await queryBuilder
+      .selectFrom('users')
+      .select(['id', 'name', 'username', 'email'])
+      .where('name', 'like', `%${search}%`)
+      .execute();
+    
+  } catch (error) {
+    console.warn(error)
+  }
 
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
